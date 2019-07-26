@@ -2,3 +2,8 @@
 build/
 .gradle/
 gradle/
+
+Challenge Problem 2/bin/
+Challenge Problem 2/obj/
+Challenge Problem 2 Test/bin/
+Challenge Problem 2 Test/obj/
