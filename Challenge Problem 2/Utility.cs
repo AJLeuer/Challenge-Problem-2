@@ -9,22 +9,22 @@ namespace ChallengeProblem2
 {
     public static class Utility
     {
-        private static IEnumerable<string> ExtractGraphemeClusters(string text) 
+        private static IEnumerable<string> ExtractGraphemeClusters(string text)
         {
             var enumerator = StringInfo.GetTextElementEnumerator(text);
-            while(enumerator.MoveNext()) 
+            while (enumerator.MoveNext())
             {
-                yield return (string)enumerator.Current;
+                yield return (string) enumerator.Current;
             }
         }
-        
+
         /* Code credit: https://stackoverflow.com/questions/228038/best-way-to-reverse-a-string/15111719#15111719 */
         public static string Reverse(this string text)
         {
             var graphemeClusters = ExtractGraphemeClusters(text);
             return string.Join("", graphemeClusters.Reverse().ToArray());
         }
-        
+
         public static void Reverse(this StringBuilder text)
         {
             var reversed = text.ToString().Reverse();
@@ -49,11 +49,11 @@ namespace ChallengeProblem2
         private static String cleanStringEnds(String text, params char[] disallowedCharacters)
         {
             String cleaned = new String(text);
-            
+
             for (int i = 0; i < cleaned.Length; i++)
             {
                 char currentChar = cleaned[i];
-                
+
                 if (disallowedCharacters.Contains(currentChar))
                 {
                     cleaned = cleaned.Remove(i, 1);
@@ -67,7 +67,7 @@ namespace ChallengeProblem2
 
             return cleaned;
         }
-        
+
         /* Code credit: https://stackoverflow.com/questions/4718965/c-sharp-string-comparison-ignoring-spaces-carriage-return-or-line-breaks/4719009 */
         public static bool AreEquivalent(string source, string target)
         {
@@ -84,6 +84,36 @@ namespace ChallengeProblem2
             value = value.Replace("\r\n", "\n").Replace("\r", "\n");
             value = Regex.Replace(value, @"\s", string.Empty);
             return value.ToLowerInvariant();
+        }
+
+        public static T FindMedian<T>(List<T> items) where T : IComparable<T>, IEquatable<T>, new()
+        {
+            items.Sort();
+
+            if (items.Count <= 2)
+            {
+                if (items.Count == 0)
+                {
+                    return default(T);
+                }
+                else if (items.Count == 1)
+                {
+                    return items[0];
+                }
+                else /* if (items.Count == 2) */
+                {
+                    dynamic firstItem = items[0];
+                    dynamic secondItem = items[1];
+                    dynamic average = (firstItem + secondItem) / 2;
+                    return (T) average;
+                }
+            }
+            else
+            {
+                items.RemoveAt(items.Count - 1);
+                items.RemoveAt(0);
+                return FindMedian<T>(items);
+            }
         }
     }
 }
