@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NodaMoney;
 
 namespace ChallengeProblem2
 {
@@ -39,6 +40,17 @@ namespace ChallengeProblem2
 
             EducationLevel mostCommonEducationLevel = sortedEducationLevelOccurences.Last().Key;
             return mostCommonEducationLevel;
+        }
+
+        public static Money ComputeMedianIncome(List<Person> persons)
+        {
+            var incomes = new List<Money>();
+            
+            persons.ForEach((Person person) => { incomes.Add(person.Income); });
+
+            Money medianIncome = Utility.FindMedian(incomes);
+
+            return medianIncome;
         }
     }
 }

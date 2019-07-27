@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using ChallengeProblem2;
 using NodaMoney;
 using NUnit.Framework;
@@ -37,6 +38,14 @@ namespace ChallengeProblem2Test
             EducationLevel mostCommonHighestLevelOfEducation = DemographicsAnalyzer.FindMostCommonHighestLevelOfEducation(Persons);
             
             Assert.AreEqual(EducationLevel.HighSchool, mostCommonHighestLevelOfEducation);
+        }
+
+        [Test]
+        public static void ShouldComputeMedianIncome()
+        {
+            Money medianIncome = DemographicsAnalyzer.ComputeMedianIncome(Persons);
+
+            Assert.AreEqual(new Money(65000, "USD"), medianIncome);
         }
     }
 }
