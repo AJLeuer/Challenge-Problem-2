@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -32,7 +33,7 @@ namespace ChallengeProblem2
             this.Income = income;
         }
 
-        public static Person CreateFromStringDescription(string personDescription)
+        public static Person CreateFromDescription(string personDescription)
         {
             String name = GetFieldValueFromPersonDescription<String>(personDescription, PersonDescriptionFieldKeys[PersonDescriptionField.Name]);
             ushort age = GetFieldValueFromPersonDescription<ushort>(personDescription, PersonDescriptionFieldKeys[PersonDescriptionField.Age]);
@@ -41,6 +42,21 @@ namespace ChallengeProblem2
             
             var person = new Person(name, age, education, income);
             return person;
+        }
+
+        public static List<Person> CreateMultipleFromDescriptions(Stream personDescriptions)
+        {
+            var persons = new List<Person>();
+            var reader = new StreamReader(personDescriptions);
+
+            while (reader.EndOfStream == false)
+            {
+                String description = reader.ReadLine();
+                Person person = CreateFromDescription(description);
+                persons.Add(person);
+            }
+
+            return persons;
         }
 
         public bool Equals(Person other)
