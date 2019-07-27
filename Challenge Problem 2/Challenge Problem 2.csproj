@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="NodaMoney" Version="1.0.5" />
+	  <PackageReference Include="Optional" Version="5.0.0-alpha" />
 	</ItemGroup>
 	
 	<Target Name="Copy Files" AfterTargets="AfterBuild">
