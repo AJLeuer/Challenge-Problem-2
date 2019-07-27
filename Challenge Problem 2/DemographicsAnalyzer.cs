@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ChallengeProblem2
 {
@@ -18,6 +19,26 @@ namespace ChallengeProblem2
             decimal averageAge = agesSum / persons.Count;
             averageAge = Decimal.Round(averageAge, 1);
             return averageAge;
+        }
+        
+        public static EducationLevel FindMostCommonHighestLevelOfEducation(List<Person> persons)
+        {
+            var educationLevelOccurences = new SortedDictionary<EducationLevel, uint>()
+            {
+                { EducationLevel.GradeSchool, 0 },
+                { EducationLevel.HighSchool, 0 },
+                { EducationLevel.College, 0 }
+            };
+            
+            foreach (var person in persons)
+            {
+                educationLevelOccurences[person.Education]++;
+            }
+            
+            var sortedEducationLevelOccurences = from educationLevelOccurence in educationLevelOccurences orderby educationLevelOccurence.Value ascending select educationLevelOccurence;
+
+            EducationLevel mostCommonEducationLevel = sortedEducationLevelOccurences.Last().Key;
+            return mostCommonEducationLevel;
         }
     }
 }
