@@ -1,9 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>netcoreapp3.0</TargetFramework>
 		<RootNamespace>Challenge_Problem_2</RootNamespace>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="NodaMoney" Version="1.0.5" />
+	</ItemGroup>
+	
+	<Target Name="Copy Files" AfterTargets="AfterBuild">
+		<Copy SourceFiles="Persons.txt" DestinationFolder="$(OutDir)\" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+	</Target>
 
 </Project>
