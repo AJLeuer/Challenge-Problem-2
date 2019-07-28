@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Microsoft.Win32.SafeHandles;
 
 namespace ChallengeProblem2
 {
@@ -6,7 +8,8 @@ namespace ChallengeProblem2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var personsDescriptions = new FileStream("Persons.txt", FileMode.Open);
+            DemographicsAnalyzer.PrintFullDemographicsAnalysis(input: personsDescriptions, output: Console.OpenStandardOutput());
         }
     }
 }
