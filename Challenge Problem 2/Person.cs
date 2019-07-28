@@ -9,7 +9,7 @@ using NodaMoney;
 
 namespace ChallengeProblem2 
 {
-    public class Person : IEquatable<Person>
+    public class Person : IEquatable<Person>, IComparable<Person>
     {
         public Name           Name      { get; }
         public ushort         Age       { get; }
@@ -98,6 +98,35 @@ namespace ChallengeProblem2
         
 
         #endregion
+        
+        #region Comparison
+        public int CompareTo(Person other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return Comparer<Name>.Default.Compare(Name, other.Name);
+        }
+
+        public static bool operator <(Person left, Person right)
+        {
+            return Comparer<Person>.Default.Compare(left, right) < 0;
+        }
+
+        public static bool operator >(Person left, Person right)
+        {
+            return Comparer<Person>.Default.Compare(left, right) > 0;
+        }
+
+        public static bool operator <=(Person left, Person right)
+        {
+            return Comparer<Person>.Default.Compare(left, right) <= 0;
+        }
+
+        public static bool operator >=(Person left, Person right)
+        {
+            return Comparer<Person>.Default.Compare(left, right) >= 0;
+        }
+        #endregion
 
         public static T GetFieldValueFromPersonDescription<T>(String personDescription, String fieldKey) 
         {
@@ -182,7 +211,7 @@ namespace ChallengeProblem2
         }
     }
 
-    public class Name : IEquatable<Name>
+    public class Name : IEquatable<Name>, IComparable<Name>
     {
         public String First { get; }
         public String Last  { get; }
@@ -192,6 +221,11 @@ namespace ChallengeProblem2
             (String first, String last) = SplitFullNameIntoComponents(fullName);
             this.First = first;
             this.Last = last;
+        }
+
+        public override String ToString()
+        {
+            return $"{First} {Last}";
         }
 
         private static (String first, String last) SplitFullNameIntoComponents(string fullName)
@@ -236,6 +270,35 @@ namespace ChallengeProblem2
         }
         
 
+        #endregion
+
+        #region Comparison
+        public int CompareTo(Name other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return string.Compare(Last, other.Last, StringComparison.Ordinal);
+        }
+
+        public static bool operator < (Name left, Name right)
+        {
+            return Comparer<Name>.Default.Compare(left, right) < 0;
+        }
+
+        public static bool operator > (Name left, Name right)
+        {
+            return Comparer<Name>.Default.Compare(left, right) > 0;
+        }
+
+        public static bool operator <= (Name left, Name right)
+        {
+            return Comparer<Name>.Default.Compare(left, right) <= 0;
+        }
+
+        public static bool operator >= (Name left, Name right)
+        {
+            return Comparer<Name>.Default.Compare(left, right) >= 0;
+        }
         #endregion
     }
 

@@ -2,15 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NodaMoney;
 
 namespace ChallengeProblem2
 {
     public static class DemographicsAnalyzer
     {
-        public static void PrintFullDemographicsAnalysis(Stream output)
+        public static void PrintFullDemographicsAnalysis(Stream input, Stream output)
         {
+            List<Person> persons = Person.CreateMultipleFromDescriptions(personDescriptions: input);
             
+            var writer = new StreamWriter(output);
+            
+            writer.WriteLine($"Total Respondents: {persons.Count}");
+            writer.WriteLine($"Average Age: {ComputeAverageAge(persons)}");
+            writer.WriteLine($"Most Common Highest Level of Education: {FindMostCommonHighestLevelOfEducation(persons).GetDescription()}");
+            writer.WriteLine($"Median Income: {ComputeMedianIncome(persons)}");
+            writer.WriteLine($"Names of All Respondents: {GetSortedListOfAllNamesAsText(persons)}");
+            
+            writer.Flush();
         }
 
         public static decimal ComputeAverageAge(List<Person> persons)
@@ -31,7 +42,7 @@ namespace ChallengeProblem2
                 { EducationLevel.College, 0 }
             };
             
-            foreach (var person in persons)
+            foreach (Person person in persons)
             {
                 educationLevelOccurences[person.Education]++;
             }
@@ -49,8 +60,26 @@ namespace ChallengeProblem2
             persons.ForEach((Person person) => { incomes.Add(person.Income); });
 
             Money medianIncome = Utility.FindMedian(incomes);
-
             return medianIncome;
+        }
+
+        public static String GetSortedListOfAllNamesAsText(List<Person> persons)
+        {
+            persons.Sort();
+            var allNamesListBuilder = new StringBuilder();
+
+            for (var i = 0; i < persons.Count; i++)
+            {
+                Person person = persons[i];
+                allNamesListBuilder.Append(person.Name);
+
+                if (i < (persons.Count - 1))
+                {
+                    allNamesListBuilder.Append(", ");
+                }
+            }
+
+            return allNamesListBuilder.ToString();
         }
     }
 }

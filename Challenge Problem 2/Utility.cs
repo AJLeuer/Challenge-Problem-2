@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -142,6 +143,12 @@ namespace ChallengeProblem2
             }
             //If we have no description attribute, just return the ToString of the enum
             return enumerationValue.ToString();
+        }
+
+        public static string ReadFromBeginning(this StreamReader reader)
+        {
+            reader.BaseStream.Seek(0, SeekOrigin.Begin);
+            return reader.ReadToEnd();
         }
     }
 }

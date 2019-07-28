@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Text;
 using ChallengeProblem2;
 using NodaMoney;
 using NUnit.Framework;
@@ -28,14 +30,29 @@ namespace ChallengeProblem2Test
         [Test]
         public static void ShouldOutputFullDemographicsAnalysis()
         {
+            String input =
+                "Name: Suzanne Martinez, Age: 39, Highest Level of Education: High School, Income: $45,000" + Environment.NewLine +
+                "Name: Melissa Brownell, Age: 27, Highest Level of Education: College, Income: $70,000" + Environment.NewLine +
+                "Name: Nathan Southern, Age: 73, Highest Level of Education: Grade School, Income: $33,000" + Environment.NewLine +
+                "Name: Celeste Willis, Age: 46, Highest Level of Education: High School, Income: $60,000" + Environment.NewLine +
+                "Name: Ashley Green, Age: 27, Highest Level of Education: College, Income: $100,000" + Environment.NewLine +
+                "Name: Jennifer Coleman, Age: 35, Highest Level of Education: High School, Income: $75,000" + Environment.NewLine;
+                
+                
+            var demographicsAnalysisInputStream = new MemoryStream(Encoding.UTF8.GetBytes(input));
+            var demographicsAnalysisOutputStream = new MemoryStream();
+            
+            DemographicsAnalyzer.PrintFullDemographicsAnalysis(demographicsAnalysisInputStream, demographicsAnalysisOutputStream);
+            String demographicsAnalysisOutput = new StreamReader(demographicsAnalysisOutputStream).ReadFromBeginning();
+            
             String expectedOutput =
                 "Total Respondents: 6" + Environment.NewLine +
                 "Average Age: 41.2" + Environment.NewLine +
                 "Most Common Highest Level of Education: High School" + Environment.NewLine +
-                "Median Income: $65,000" + Environment.NewLine +
-                "Names of All Respondents: Melissa Brownell, Jennifer Coleman, Ashley Green, Suzanne Martinez, Nathan Southern, Celeste Willis";
+                "Median Income: $65,000.00" + Environment.NewLine +
+                "Names of All Respondents: Melissa Brownell, Jennifer Coleman, Ashley Green, Suzanne Martinez, Nathan Southern, Celeste Willis" + Environment.NewLine;
             
-            
+            Assert.AreEqual(expectedOutput, demographicsAnalysisOutput);
         }
         
         [Test]
