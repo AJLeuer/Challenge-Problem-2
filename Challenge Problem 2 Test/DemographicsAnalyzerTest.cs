@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using ChallengeProblem2;
@@ -22,6 +23,19 @@ namespace ChallengeProblem2Test
                 new Person(name: "Ashley Green", age: 27, education: EducationLevel.College, income: Money.USDollar(100000)),
                 new Person(name: "Jennifer Coleman", age: 35, education: EducationLevel.HighSchool, income: Money.USDollar(75000)),
             };
+        }
+
+        [Test]
+        public static void ShouldOutputFullDemographicsAnalysis()
+        {
+            String expectedOutput =
+                "Total Respondents: 6" + Environment.NewLine +
+                "Average Age: 41.2" + Environment.NewLine +
+                "Most Common Highest Level of Education: High School" + Environment.NewLine +
+                "Median Income: $65,000" + Environment.NewLine +
+                "Names of All Respondents: Melissa Brownell, Jennifer Coleman, Ashley Green, Suzanne Martinez, Nathan Southern, Celeste Willis";
+            
+            
         }
         
         [Test]

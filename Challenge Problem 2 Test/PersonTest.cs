@@ -29,8 +29,8 @@ namespace ChallengeProblem2Test
         [Test]
         public void ShouldCreateMultiplePersonsFromDescriptionOfMultiplePeople()
         {
-            String personDescription = "Name: Suzanne Martinez, Age: 39, Highest Level of Education: High School, Income: $45,000" + '\n' +
-                                       "Name: Nathan Southern, Age: 73, Highest Level of Education: Grade School, Income: $33,000" + '\n' +
+            String personDescription = "Name: Suzanne Martinez, Age: 39, Highest Level of Education: High School, Income: $45,000" + Environment.NewLine +
+                                       "Name: Nathan Southern, Age: 73, Highest Level of Education: Grade School, Income: $33,000" + Environment.NewLine +
                                        "Name: Celeste Willis, Age: 46, Highest Level of Education: High School, Income: $60,000";
 
             var personDescriptionStream = new MemoryStream(Encoding.UTF8.GetBytes(personDescription));

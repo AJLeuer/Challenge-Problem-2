@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using NodaMoney;
-using Optional;
 
-namespace ChallengeProblem2
+namespace ChallengeProblem2 
 {
     public class Person : IEquatable<Person>
     {
-        public string Name { get; set; }
-        public ushort Age { get; set; }
-        public EducationLevel Education { get; set; }
-        public Money Income { get; set; }
+        public Name           Name      { get; }
+        public ushort         Age       { get; }
+        public EducationLevel Education { get; }
+        public Money          Income    { get; }
 
         public static readonly Dictionary<PersonDescriptionField, String> PersonDescriptionFieldKeys = new Dictionary<PersonDescriptionField, String>
         {
@@ -27,7 +26,7 @@ namespace ChallengeProblem2
 
         public Person(string name, ushort age, EducationLevel education, Money income)
         {
-            this.Name = name;
+            this.Name = new Name(name);
             this.Age = age;
             this.Education = education;
             this.Income = income;
@@ -58,7 +57,8 @@ namespace ChallengeProblem2
 
             return persons;
         }
-
+        
+        #region Equality
         public bool Equals(Person other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -95,6 +95,9 @@ namespace ChallengeProblem2
         {
             return !Equals(left, right);
         }
+        
+
+        #endregion
 
         public static T GetFieldValueFromPersonDescription<T>(String personDescription, String fieldKey) 
         {
@@ -179,12 +182,75 @@ namespace ChallengeProblem2
         }
     }
 
+    public class Name : IEquatable<Name>
+    {
+        public String First { get; }
+        public String Last  { get; }
+
+        public Name(String fullName)
+        {
+            (String first, String last) = SplitFullNameIntoComponents(fullName);
+            this.First = first;
+            this.Last = last;
+        }
+
+        private static (String first, String last) SplitFullNameIntoComponents(string fullName)
+        {
+            String[] nameComponents = fullName.Split(' ');
+            (String first, String last) names = (nameComponents[0], nameComponents.Last());
+            return names;
+        }
+
+        #region Equality
+        public bool Equals(Name other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return string.Equals(First, other.First) && string.Equals(Last, other.Last);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Name) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((First != null ? First.GetHashCode() : 0) * 397) ^ (Last != null ? Last.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(Name left, Name right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Name left, Name right)
+        {
+            return !Equals(left, right);
+        }
+        
+
+        #endregion
+    }
+
 
     public enum EducationLevel
     {
         Unknown,
+        
+        [Description("Grade School")]
         GradeSchool,
+        
+        [Description("High School")]
         HighSchool,
+        
+        [Description("College")]
         College
     }
 }
